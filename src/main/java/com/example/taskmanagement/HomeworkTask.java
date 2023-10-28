@@ -9,9 +9,9 @@ public class HomeworkTask implements Task{
     private Priority priority;
     private Date  deadline;
 
-    public void setTask(String taskName, String taskDescription) {
+    public void setTask(String taskName, String description) {
         this.taskName = taskName;
-        this.description = taskDescription;
+        this.description = description;
         this.completed = false;
     }
 
@@ -29,6 +29,10 @@ public class HomeworkTask implements Task{
 
     public void setPriority(Priority priority) {
         this.priority = priority;
+    }
+
+    public Priority getPriority() {
+        return priority;
     }
 
     public void setDeadline(Date date) {
