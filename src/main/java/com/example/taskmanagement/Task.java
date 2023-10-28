@@ -6,7 +6,7 @@ public interface Task {
     void setTask(String taskName, String taskDescription);
     void setTaskName(String taskName);
     void setTaskDescription(String taskDescription);
-    void markAsComplete();
+    void markAsComplete(boolean completed);
     void setPriority(Priority priority);
     void setDeadline(Date date);
 }

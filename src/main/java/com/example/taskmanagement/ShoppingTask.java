@@ -23,12 +23,15 @@ public class ShoppingTask implements Task{
         this.description = taskDescription;
     }
 
-    public void markAsComplete() {
-        this.completed = true;
+    public void markAsComplete(boolean completed) {
+        this.completed = completed;
     }
 
     public void setPriority(Priority priority) {
         this.priority = priority;
+    }
+    public Priority getPriority() {
+        return priority;
     }
 
     public void setDeadline(Date date) {
@@ -44,6 +47,14 @@ public class ShoppingTask implements Task{
     }
 
     public String toString(){
-        return "Shopping : "+ this.taskName + " "+this.completed;
+        return "Shopping task: "+ this.taskName;
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public Date getDeadline() {
+        return deadline;
     }
 }

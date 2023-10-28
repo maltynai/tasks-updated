@@ -23,8 +23,8 @@ public class HomeworkTask implements Task{
         this.description = taskDescription;
     }
 
-    public void markAsComplete() {
-        this.completed = true;
+    public void markAsComplete(boolean completed) {
+        this.completed = completed;
     }
 
     public void setPriority(Priority priority) {
@@ -48,10 +48,14 @@ public class HomeworkTask implements Task{
     }
 
     public String toString(){
-        return "Homework: "+ this.taskName + " "+this.completed;
+        return "Homework task: "+ this.taskName;
     }
 
+    public boolean isCompleted() {
+        return completed;
+    }
 
-
-
+    public Date getDeadline() {
+        return deadline;
+    }
 }
