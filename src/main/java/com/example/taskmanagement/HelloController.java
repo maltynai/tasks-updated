@@ -175,4 +175,19 @@ public class HelloController {
             onListViewSelected();
         }
     }
+
+    @FXML
+    public void onDeleteButtonClick() {
+        Task selectedTask = listView.getSelectionModel().getSelectedItem();
+        if (selectedTask != null) {
+            tasks.remove(selectedTask);
+
+        }
+        taskChoiceBox.setValue("");
+        nameTask.clear();
+        descriptionTask.clear();
+        deadLine.setValue(null);
+        lowRadioButton.setSelected(true);
+        checkBox.setSelected(false);
+    }
 }
