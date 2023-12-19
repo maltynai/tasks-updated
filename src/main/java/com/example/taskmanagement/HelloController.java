@@ -17,20 +17,12 @@ public class HelloController {
     ObservableList<Task> tasks = FXCollections.observableArrayList();
 
     @FXML
-    private Label taskType;
-    @FXML
     private ChoiceBox<String> taskChoiceBox;
     protected String[] tasksType = {"Homework task","Meeting task", "Shopping task"};
     @FXML
-    private Label taskName;
-    @FXML
     private TextField nameTask;
     @FXML
-    private Label taskDescription;
-    @FXML
     private TextField descriptionTask;
-    @FXML
-    private Label deadline;
     @FXML
     private DatePicker deadLine;
     @FXML
@@ -44,51 +36,73 @@ public class HelloController {
     @FXML
     private CheckBox checkBox;
 
-    HomeworkTask ht = new HomeworkTask();
-    MeetingTask mt = new MeetingTask();
-    ShoppingTask st = new ShoppingTask();
+    HomeworkTask ht;
+    MeetingTask mt;
+    ShoppingTask st;
 
     public void initialize() {
         listView.setItems(tasks);
         taskChoiceBox.getItems().addAll(tasksType);
     }
     @FXML
-    protected void onSaveButtonClick(){
-
+    protected void onSaveButtonClick() {
         String task = taskChoiceBox.getValue();
         Date userDeadline = null;
-        if (deadLine.getValue() != null){
+        if (deadLine.getValue() != null) {
             userDeadline = Date.from(deadLine.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
         }
-        if (task == "Homework task"){
-            ht.setTask(nameTask.getText(), descriptionTask.getText());
-            tasks.add(ht);
-            ht.setDeadline(userDeadline);
-            RadioButton selectedRadioButton = (RadioButton) radioGroup.getSelectedToggle();
-            String selectedRadioButtonText = selectedRadioButton.getText();
-            Priority priority = Priority.valueOf(selectedRadioButtonText);
-            ht.setPriority(priority);
-            ht.markAsComplete(checkBox.isSelected());
+        Task existingTask = null;
+        for (Task t : tasks) {
+            if (t.getTaskName().equals(nameTask.getText())) {
+                existingTask = t;
+                break;
+            }
+            System.out.println(t.getTaskName());
         }
-        else if (task == "Meeting task"){
-            mt.setTask(nameTask.getText(), descriptionTask.getText());
-            tasks.add(mt);
-            mt.setDeadline(userDeadline);
+        if (existingTask != null) {
+            existingTask.setTask(nameTask.getText(), descriptionTask.getText());
+            existingTask.setDeadline(userDeadline);
             RadioButton selectedRadioButton = (RadioButton) radioGroup.getSelectedToggle();
             String selectedRadioButtonText = selectedRadioButton.getText();
             Priority priority = Priority.valueOf(selectedRadioButtonText);
-            mt.setPriority(priority);
-            mt.markAsComplete(checkBox.isSelected());
+            existingTask.setPriority(priority);
+            existingTask.markAsComplete(checkBox.isSelected());
         }
-        else if (task == "Shopping task"){
-            st.setTask(nameTask.getText(), descriptionTask.getText());
-            tasks.add(st);
-            st.setDeadline(userDeadline);
-            RadioButton selectedRadioButton = (RadioButton) radioGroup.getSelectedToggle();
-            String selectedRadioButtonText = selectedRadioButton.getText();
-            Priority priority = Priority.valueOf(selectedRadioButtonText);
-            st.setPriority(priority);
-            st.markAsComplete(checkBox.isSelected());
+        else {
+            if (task.equals("Homework task")){
+                ht = new HomeworkTask(nameTask.getText());
+                ht.setTask(nameTask.getText(), descriptionTask.getText());
+                tasks.add(ht);
+                ht.setDeadline(userDeadline);
+                RadioButton selectedRadioButton = (RadioButton) radioGroup.getSelectedToggle();
+                String selectedRadioButtonText = selectedRadioButton.getText();
+                Priority priority = Priority.valueOf(selectedRadioButtonText);
+                ht.setPriority(priority);
+                ht.markAsComplete(checkBox.isSelected());
+
+            }
+            else if (task.equals("Meeting task")){
+                mt  = new MeetingTask(nameTask.getText());
+                mt.setTask(nameTask.getText(), descriptionTask.getText());
+                tasks.add(mt);
+                mt.setDeadline(userDeadline);
+                RadioButton selectedRadioButton = (RadioButton) radioGroup.getSelectedToggle();
+                String selectedRadioButtonText = selectedRadioButton.getText();
+                Priority priority = Priority.valueOf(selectedRadioButtonText);
+                mt.setPriority(priority);
+                mt.markAsComplete(checkBox.isSelected());
+            }
+            else if (task.equals("Shopping task")){
+                st  = new ShoppingTask(nameTask.getText());
+                st.setTask(nameTask.getText(), descriptionTask.getText());
+                tasks.add(st);
+                st.setDeadline(userDeadline);
+                RadioButton selectedRadioButton = (RadioButton) radioGroup.getSelectedToggle();
+                String selectedRadioButtonText = selectedRadioButton.getText();
+                Priority priority = Priority.valueOf(selectedRadioButtonText);
+                st.setPriority(priority);
+                st.markAsComplete(checkBox.isSelected());
+            }
         }
         taskChoiceBox.setValue("");
         nameTask.setText("");
@@ -98,16 +112,15 @@ public class HelloController {
         checkBox.setSelected(false);
     }
 
+
     @FXML
     protected void onListViewSelected(){
         Task selectedTask = listView.getSelectionModel().getSelectedItem();
-        System.out.println(selectedTask);
         if (selectedTask != null) {
-            if (selectedTask instanceof HomeworkTask) {
-                HomeworkTask ht = (HomeworkTask) selectedTask;
+            if (selectedTask instanceof HomeworkTask ht) {
                 taskChoiceBox.setValue("Homework task");
                 nameTask.setText(ht.getTaskName());
-                descriptionTask.setText(ht.getDescription());
+                descriptionTask.setText(ht.getTaskDescription());
                 if (ht.getDeadline() != null) {
                     deadLine.setValue(ht.getDeadline().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
                 }
@@ -116,11 +129,10 @@ public class HelloController {
                 highRadioButton.setSelected(ht.getPriority() == Priority.HIGH);
                 checkBox.setSelected(ht.isCompleted());
             }
-            else if (selectedTask instanceof MeetingTask) {
-                MeetingTask mt = (MeetingTask) selectedTask;
+            else if (selectedTask instanceof MeetingTask mt) {
                 taskChoiceBox.setValue("Meeting task");
                 nameTask.setText(mt.getTaskName());
-                descriptionTask.setText(mt.getDescription());
+                descriptionTask.setText(mt.getTaskDescription());
                 if (mt.getDeadline() != null) {
                     deadLine.setValue(mt.getDeadline().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
                 }
@@ -129,11 +141,10 @@ public class HelloController {
                 highRadioButton.setSelected(mt.getPriority() == Priority.HIGH);
                 checkBox.setSelected(mt.isCompleted());
             }
-            else if (selectedTask instanceof ShoppingTask) {
-                ShoppingTask st = (ShoppingTask) selectedTask;
+            else if (selectedTask instanceof ShoppingTask st) {
                 taskChoiceBox.setValue("Shopping task");
                 nameTask.setText(st.getTaskName());
-                descriptionTask.setText(st.getDescription());
+                descriptionTask.setText(st.getTaskDescription());
                 if (st.getDeadline() != null) {
                     deadLine.setValue(st.getDeadline().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
                 }
@@ -150,7 +161,6 @@ public class HelloController {
         Task selectedTask = listView.getSelectionModel().getSelectedItem();
 
         if (selectedTask != null) {
-            String taskType = taskChoiceBox.getValue();
             String taskName = nameTask.getText();
             String taskDescription = descriptionTask.getText();
             LocalDate selectedDate = deadLine.getValue();
@@ -177,11 +187,20 @@ public class HelloController {
     }
 
     @FXML
+    public void onClearButtonClick() {
+        taskChoiceBox.setValue("");
+        nameTask.clear();
+        descriptionTask.clear();
+        deadLine.setValue(null);
+        lowRadioButton.setSelected(true);
+        checkBox.setSelected(false);
+    }
+
+    @FXML
     public void onDeleteButtonClick() {
         Task selectedTask = listView.getSelectionModel().getSelectedItem();
         if (selectedTask != null) {
             tasks.remove(selectedTask);
-
         }
         taskChoiceBox.setValue("");
         nameTask.clear();

@@ -1,61 +1,12 @@
 package com.example.taskmanagement;
 
-import java.util.Date;
-
-public class HomeworkTask implements Task{
-    private String taskName;
-    private String description;
-    private boolean completed;
-    private Priority priority;
-    private Date  deadline;
-
-    public void setTask(String taskName, String description) {
-        this.taskName = taskName;
-        this.description = description;
-        this.completed = false;
+public class HomeworkTask extends Task{
+    Task h = new Task();
+    public HomeworkTask(String taskName) {
+        h.setTaskName(taskName);
     }
-
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
-    }
-
-    public void setTaskDescription(String taskDescription) {
-        this.description = taskDescription;
-    }
-
-    public void markAsComplete(boolean completed) {
-        this.completed = completed;
-    }
-
-    public void setPriority(Priority priority) {
-        this.priority = priority;
-    }
-
-    public Priority getPriority() {
-        return priority;
-    }
-
-    public void setDeadline(Date date) {
-        this.deadline = date;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getTaskName() {
-        return taskName;
-    }
-
+    @Override
     public String toString(){
-        return "Homework task: "+ this.taskName;
-    }
-
-    public boolean isCompleted() {
-        return completed;
-    }
-
-    public Date getDeadline() {
-        return deadline;
+        return "Homework task: "+ h.getTaskName();
     }
 }
