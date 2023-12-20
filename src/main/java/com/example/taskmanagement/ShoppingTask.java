@@ -2,6 +2,9 @@ package com.example.taskmanagement;
 
 public class ShoppingTask extends Task{
     Task s = new Task();
+    public ShoppingTask(){
+
+    }
     public ShoppingTask(String taskName) {
         s.setTaskName(taskName);
     }

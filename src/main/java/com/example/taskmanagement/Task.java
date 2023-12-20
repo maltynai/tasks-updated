@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class Task implements TaskInterface{
     private  int taskId;
+    private String taskType;
     private String taskName;
     private String taskDescription;
     private boolean completed;
@@ -13,12 +14,15 @@ public class Task implements TaskInterface{
     public int getTaskId() {
         return taskId;
     }
+    public String getTaskType(){
+        return taskType;
+    };
 
     public String getTaskName() {
         return taskName;
     }
 
-        public String getTaskDescription() {
+    public String getTaskDescription() {
         return taskDescription;
     }
 
@@ -40,6 +44,10 @@ public class Task implements TaskInterface{
         this.taskDescription = taskDescription;
         this.completed = false;
     }
+    @Override
+    public void setTaskType(String taskType){
+        this.taskType = taskType;
+    };
     @Override
     public void setTaskName(String taskName) {
         this.taskName = taskName;
