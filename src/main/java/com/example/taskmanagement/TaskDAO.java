@@ -5,7 +5,7 @@ import java.sql.*;
 
 public class TaskDAO {
     private Connection connection;
-    private String url = "jdbc:postgresql://localhost:5432/java";
+    private String url = "jdbc:postgresql://localhost:5432/postgres";
     private String username = "postgres";
     private String password = "21442139";
 
